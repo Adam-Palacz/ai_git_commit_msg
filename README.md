@@ -6,7 +6,7 @@ This project is a Python script that uses an AI model to generate descriptive gi
 ## Installation
 1. Clone the repository:
 ```
-git clone https://github.com/your-username/ai-commit-message-generator.git
+git clone https://github.com/Adam-Palacz/ai_git_commit_msg
 ```
 2. Install the required dependencies:
 ```
