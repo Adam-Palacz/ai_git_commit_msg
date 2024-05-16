@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 AI_MODEL = "claude-3-haiku-20240307"
+
 AI_SYSTEM_TEMPLATE = """
 You will be acting as a helpful software developer that generates descriptive
 git commit messages based on git diff output.
@@ -20,7 +21,7 @@ Here are the steps to follow:
 First, I will provide the git diff output for the commit in question:
 
 <git_diff>
-{{GIT_DIFF}}
+GIT_DIFF
 </git_diff>
 
 Carefully review this diff and identify the key changes
@@ -29,7 +30,8 @@ that were made in this commit. Consider things like:
 - For modified files, what was the nature of the changes
   (new features, bug fixes, refactoring, etc.)
 - Are the changes related to a particular feature, task or bugfix
-- Generated message should be very general and very simple, only few words
+- Generated message should be very general and very simple
+- Dont use more than 5 words in message
 - Avoid any additional messages and mentions about git diff in response
 
 Write your generated commit message as JSON {\"commit_message\": \"message\"}.
@@ -81,18 +83,17 @@ def main():
     git_diff_file = script_dir / "git_diff.txt"
 
     try:
-        os.system(f'git diff -- . > {str(git_diff_file)}')
+        output = subprocess.check_output(['git', 'diff', '--', '.']).decode('utf-8')
 
-        with open(git_diff_file, "r") as file:
-            git_diff = "<git_diff>\n" + file.read() + "\n<git_diff>"
+        git_diff = "<git_diff>\n" + output + "\n<git_diff>"
 
         commit_message = generate_ai_commit_message(git_diff)
 
-        print("\n#######")
+        print("\n#########")
         print(commit_message)
-        print("\n#######")
+        print("\n#########")
 
-        git_diff_file.unlink(missing_ok=True)
+        # git_diff_file.unlink(missing_ok=True)
         subprocess.run(["git", "add", "."], check=True)
         subprocess.run(["git", "commit", "-m", commit_message], check=True)
         subprocess.run(["git", "push"], check=True)
