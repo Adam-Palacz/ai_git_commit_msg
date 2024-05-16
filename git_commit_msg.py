@@ -90,10 +90,14 @@ def main():
         commit_message = generate_ai_commit_message(git_diff)
 
         print("\n#########")
-        print(commit_message)
-        print("\n#########")
+        print("Commit message: " + commit_message)
+        print("#########")
 
-        # git_diff_file.unlink(missing_ok=True)
+        command = input("Enter - accept commit message | Any other key - discard commit message: ")
+        if command != "":
+            print("Commit message discarded")
+            return
+
         subprocess.run(["git", "add", "."], check=True)
         subprocess.run(["git", "commit", "-m", commit_message], check=True)
         subprocess.run(["git", "push"], check=True)
