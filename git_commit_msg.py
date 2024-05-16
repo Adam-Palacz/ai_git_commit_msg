@@ -91,7 +91,7 @@ def main():
 
         print("\n#########")
         print("Commit message: " + commit_message)
-        print("#########")
+        print("#########\n")
 
         command = input("Enter - accept commit message | Any other key - discard commit message: ")
         if command != "":
