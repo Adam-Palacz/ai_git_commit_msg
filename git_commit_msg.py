@@ -31,7 +31,7 @@ that were made in this commit. Consider things like:
   (new features, bug fixes, refactoring, etc.)
 - Are the changes related to a particular feature, task or bugfix
 - Generated message should be very general and very simple
-- Dont use more than 5 words in message
+- Dont use more than 10 words in message
 - Avoid any additional messages and mentions about git diff in response
 
 Write your generated commit message as JSON {\"commit_message\": \"message\"}.
